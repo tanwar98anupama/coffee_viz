@@ -2,6 +2,8 @@
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
+from matplotlib.markers import MarkerStyle
+from matplotlib.transforms import Affine2D
 
 ESPRESSO = "#3B2417"
 MOCHA = "#6F4E37"
@@ -78,9 +80,10 @@ def plot_price_rating(df, price_col="price", rating_col="rating", label_col="dri
     _require_columns(df, [price_col, rating_col, label_col])
     data = df.copy()
 
+    bean_marker = MarkerStyle("o", transform=Affine2D().scale(1.6, 1.0).rotate_deg(25))
     fig, ax = plt.subplots(figsize=(8, 5))
-    ax.scatter(data[price_col], data[rating_col], s=90, color=MOCHA,
-               edgecolor=CARAMEL, linewidth=1.5, zorder=3)
+    ax.scatter(data[price_col], data[rating_col], s=140, marker=bean_marker,
+               color=MOCHA, edgecolor=CARAMEL, linewidth=1.5, zorder=3)
 
     for _, row in data.iterrows():
         ax.annotate(str(row[label_col]), (row[price_col], row[rating_col]),
