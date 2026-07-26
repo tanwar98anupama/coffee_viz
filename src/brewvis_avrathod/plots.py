@@ -72,8 +72,9 @@ def plot_drink_sales(df, drink_col="drink", sales_col="units_sold", top_n=5):
         pctdistance=0.82,
     )
     for text in autotexts:
-        text.set_color(CHARCOAL)
-        text.set_fontsize(9)
+        text.set_color(CREAM)
+        text.set_fontsize(12)
+        text.set_fontweight("bold")
 
     ax.text(0, 0, f"{totals.sum():,.0f}\nunits sold", ha="center", va="center",
              color=CHARCOAL, fontsize=16, fontweight="bold")
