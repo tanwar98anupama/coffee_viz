@@ -14,16 +14,21 @@ FOREST = "#2F5132"
 CHARCOAL = "#2B2118"
 
 BEAN_MARKER = MarkerStyle("o", transform=Affine2D().scale(1.6, 1.0).rotate_deg(25))
+CREASE_MARKER = MarkerStyle("|", transform=Affine2D().scale(1.0, 1.4).rotate_deg(25))
 
 
 def _draw_mug(ax):
-    """Stamp a small coffee-mug watermark above the plot area, clear of any data."""
+    """Stamp a small steaming coffee-mug watermark above the plot area, clear of any data."""
     ax.add_patch(Rectangle((0.93, 1.04), 0.05, 0.09, transform=ax.transAxes,
                             facecolor=MOCHA, edgecolor=CHARCOAL, linewidth=1.3,
                             clip_on=False, zorder=5))
     ax.add_patch(Arc((0.985, 1.085), 0.04, 0.055, theta1=-100, theta2=100,
                       transform=ax.transAxes, edgecolor=CHARCOAL, linewidth=1.5,
                       clip_on=False, zorder=5))
+    for dx in (0.0, 0.02):
+        ax.plot([0.943 + dx, 0.953 + dx, 0.943 + dx, 0.953 + dx], [1.14, 1.18, 1.22, 1.26],
+                transform=ax.transAxes, color=CHARCOAL, linewidth=1.2, alpha=0.5,
+                clip_on=False, zorder=5, solid_capstyle="round")
 
 
 def _style_axis(ax, title, xlabel, ylabel):
@@ -108,6 +113,8 @@ def plot_price_rating(df, price_col="price", rating_col="rating", label_col="dri
     fig, ax = plt.subplots(figsize=(8, 5))
     ax.scatter(data[price_col], data[rating_col], s=140, marker=BEAN_MARKER,
                color=MOCHA, edgecolor=CARAMEL, linewidth=1.5, zorder=3)
+    ax.scatter(data[price_col], data[rating_col], s=70, marker=CREASE_MARKER,
+               color=ESPRESSO, linewidth=1.4, zorder=4)
 
     for _, row in data.iterrows():
         ax.annotate(str(row[label_col]), (row[price_col], row[rating_col]),
