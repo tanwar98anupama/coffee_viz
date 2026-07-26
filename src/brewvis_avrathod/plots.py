@@ -35,21 +35,28 @@ def _require_columns(df, columns):
 
 
 def plot_drink_sales(df, drink_col="drink", sales_col="units_sold", top_n=5):
-    """Bar chart of top-selling drinks by total units sold."""
+    """Donut chart of top-selling drinks by total units sold."""
     _require_columns(df, [drink_col, sales_col])
     totals = df.copy().groupby(drink_col)[sales_col].sum().sort_values(ascending=False)
     totals = totals.head(top_n)
 
-    fig, ax = plt.subplots(figsize=(8, 5))
+    fig, ax = plt.subplots(figsize=(7, 7))
+    fig.set_facecolor(CREAM)
+    ax.set_facecolor(CREAM)
     colors = [CARAMEL if i == 0 else MOCHA for i in range(len(totals))]
-    bars = ax.bar(totals.index, totals.values, color=colors, edgecolor=ESPRESSO)
 
-    for bar in bars:
-        height = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width() / 2, height, f"{height:,.0f}",
-                 ha="center", va="bottom", color=CHARCOAL, fontsize=9)
+    _, _, autotexts = ax.pie(
+        totals.values, labels=totals.index, colors=colors, startangle=90,
+        wedgeprops=dict(width=0.4, edgecolor=CREAM, linewidth=2),
+        textprops=dict(color=CHARCOAL),
+        autopct=lambda pct: f"{round(pct / 100 * totals.sum()):,.0f}",
+        pctdistance=0.82,
+    )
+    for text in autotexts:
+        text.set_color(CHARCOAL)
+        text.set_fontsize(9)
 
-    _style_axis(ax, "Top-Selling Drinks", "Drink", "Units Sold")
+    ax.set_title("Top-Selling Drinks", color=CHARCOAL, fontsize=13, fontweight="bold")
     fig.tight_layout()
     return fig, ax
 

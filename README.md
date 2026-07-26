@@ -38,7 +38,7 @@ plt.show()
 ## Function Reference
 
 ### `plot_drink_sales(df, drink_col="drink", sales_col="units_sold", top_n=5)`
-Groups units sold by drink, sorts descending, and shows the top `top_n` drinks as a bar
+Groups units sold by drink, sorts descending, and shows the top `top_n` drinks as a donut
 chart. The top seller is highlighted in caramel. Returns `(fig, ax)`.
 
 ### `plot_hourly_sales(df, hour_col="hour", sales_col="sales_usd")`
